@@ -9,9 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.45.0",
-    "framer-motion": "^11.0.0",
     "@studio-freight/react-lenis": "^0.0.47",
+    "@supabase/supabase-js": "^2.90.1",
+    "framer-motion": "^11.0.0",
     "next": "14.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

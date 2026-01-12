@@ -22,10 +22,10 @@ import {
 } from './lib/pumpportal.js';
 
 // ═══════════════════════════════════════════════════════════════
-// CONFIGURACOES DE TRADING
+// TRADING CONFIG
 // ═══════════════════════════════════════════════════════════════
 const TRADING_CONFIG = {
-    MIN_SCORE_TO_BUY: 75,
+    MIN_SCORE_TO_BUY: 65,
     MAX_TRADE_SOL: 0.05,
     STOP_LOSS_PERCENT: -25,
     TAKE_PROFIT_PERCENT: 50,
@@ -70,18 +70,35 @@ app.get('/positions', async (req, res) => {
 });
 
 app.listen(config.PORT, () => {
-    logInfo(`API rodando em http://localhost:${config.PORT}`);
+    logInfo(`API running at http://localhost:${config.PORT}`);
 });
 
 // ═══════════════════════════════════════════════════════════════
-// PROCESSAR NOVO TOKEN
+// UPDATE WALLET BALANCE IN DATABASE
+// ═══════════════════════════════════════════════════════════════
+async function updateWalletBalance() {
+    const wallet = getWallet();
+    if (!wallet) return;
+
+    const balance = await getBalance();
+    const walletAddress = wallet.publicKey.toBase58();
+
+    await supabase.from('wallet_balance').upsert({
+        wallet_address: walletAddress,
+        sol_balance: balance,
+        updated_at: new Date().toISOString()
+    }, { onConflict: 'wallet_address' });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PROCESS NEW TOKEN
 // ═══════════════════════════════════════════════════════════════
 async function processToken(msg) {
     const { mint: ca, name, symbol, uri, marketCapSol } = msg;
 
-    logInfo(`Novo token detectado: ${name || 'Unknown'} (${symbol || '???'})`);
+    logInfo(`New token detected: ${name || 'Unknown'} (${symbol || '???'})`);
 
-    // 1. Salvar inicial
+    // 1. Save initial
     await upsertToken({
         ca,
         nome: name || 'Unknown',
@@ -89,16 +106,23 @@ async function processToken(msg) {
         status: 'analyzing'
     });
 
-    // 2. Buscar logo via IPFS
+    // 2. Fetch logo via IPFS
     let logo = null;
+    let description = null;
     if (uri) {
-        logo = await fetchImageFromIPFS(uri);
+        const metadata = await fetchImageFromIPFS(uri);
+        if (typeof metadata === 'object') {
+            logo = metadata.image || metadata;
+            description = metadata.description || null;
+        } else {
+            logo = metadata;
+        }
     }
 
-    // 3. Buscar dados Birdeye
+    // 3. Get Birdeye data
     const info = await getTokenInfo(ca);
 
-    // 4. Calcular market cap
+    // 4. Calculate market cap
     const solPrice = await getSolPrice();
     const mcapFromPump = (marketCapSol || 0) * solPrice;
 
@@ -109,14 +133,20 @@ async function processToken(msg) {
         mc: mcapFromPump > 0 ? mcapFromPump : (info?.mc || 0),
         price: info?.price || 0,
         holders: info?.holders || 0,
-        liquidity: info?.liquidity || 0
+        liquidity: info?.liquidity || 0,
+        description: description,
+        imageUrl: logo
     };
 
-    // 5. Analisar com Claude
+    // 5. Analyze with Claude
     const analysis = await analyzeWithClaude(tokenData);
     logAnalysis(tokenData.symbol, analysis.score, analysis.decision);
 
-    // 6. Atualizar no DB
+    // Log analysis details
+    logInfo(`  Narrative: ${analysis.narrative_score}/100 | Ticker: ${analysis.ticker_score}/100 | Image: ${analysis.image_score}/100`);
+    logInfo(`  Reason: ${analysis.analysis_reason}`);
+
+    // 6. Update in DB with analysis scores
     await upsertToken({
         ca,
         nome: tokenData.name,
@@ -126,14 +156,17 @@ async function processToken(msg) {
         preco: tokenData.price,
         holders: tokenData.holders,
         liquidity: tokenData.liquidity,
-        claude_score: analysis.score,
+        score: analysis.score,
+        narrative_score: analysis.narrative_score,
+        ticker_score: analysis.ticker_score,
+        image_score: analysis.image_score,
+        analysis_reason: analysis.analysis_reason,
+        image_url: tokenData.logo,
         claude_decision: analysis.decision,
-        claude_reasons: analysis.reasons,
-        claude_red_flags: analysis.redFlags,
         status: analysis.decision === 'BUY' ? 'approved' : 'rejected'
     });
 
-    // Log do token estilo pro
+    // Log token
     logToken({
         action: analysis.decision === 'BUY' ? 'BUY' : 'SKIP',
         symbol: tokenData.symbol,
@@ -146,7 +179,7 @@ async function processToken(msg) {
         extra: `Score: ${analysis.score}`
     });
 
-    // 7. Auto-buy se score >= MIN_SCORE
+    // 7. Auto-buy if score >= MIN_SCORE
     if (analysis.score >= TRADING_CONFIG.MIN_SCORE_TO_BUY && analysis.decision === 'BUY') {
         const wallet = getWallet();
         if (wallet) {
@@ -159,12 +192,17 @@ async function processToken(msg) {
                 if (tx) {
                     logBuy(tokenData.symbol, tokenData.mc, amountToBuy, `TX: ${tx.slice(0, 20)}...`);
 
+                    // Record trade with analysis
                     await recordTrade({
                         token_id: ca,
                         tipo: 'buy',
                         valor_sol: amountToBuy,
                         preco: tokenData.price,
-                        tx_signature: tx
+                        tx_signature: tx,
+                        narrative_score: analysis.narrative_score,
+                        ticker_score: analysis.ticker_score,
+                        image_score: analysis.image_score,
+                        analysis_reason: analysis.analysis_reason
                     });
 
                     await createPosition({
@@ -175,9 +213,12 @@ async function processToken(msg) {
                     });
 
                     await upsertToken({ ca, status: 'holding' });
+
+                    // Update wallet balance
+                    await updateWalletBalance();
                 }
             } else {
-                logWarning('Balance insuficiente para compra');
+                logWarning('Insufficient balance for purchase');
             }
         }
     } else if (analysis.decision !== 'BUY') {
@@ -188,7 +229,7 @@ async function processToken(msg) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// MONITORAR POSICOES (SL/TP)
+// MONITOR POSITIONS (SL/TP)
 // ═══════════════════════════════════════════════════════════════
 async function monitorPositions() {
     const positions = await getOpenPositions();
@@ -199,7 +240,7 @@ async function monitorPositions() {
 
         const pnlPercent = ((info.price - position.entry_price) / position.entry_price) * 100;
 
-        // Atualizar posicao
+        // Update position
         await supabase.from('positions').update({
             current_price: info.price,
             pnl_percent: pnlPercent,
@@ -230,6 +271,7 @@ async function monitorPositions() {
                     tx_signature: tx
                 });
                 await upsertToken({ ca: position.token_id, status: 'sold_tp' });
+                await updateWalletBalance();
             }
         }
 
@@ -249,13 +291,14 @@ async function monitorPositions() {
                     tx_signature: tx
                 });
                 await upsertToken({ ca: position.token_id, status: 'sold_sl' });
+                await updateWalletBalance();
             }
         }
     }
 }
 
 // ═══════════════════════════════════════════════════════════════
-// ATUALIZAR STATS
+// UPDATE STATS
 // ═══════════════════════════════════════════════════════════════
 async function updateStats() {
     const wallet = getWallet();
@@ -287,46 +330,50 @@ async function updateStats() {
         losses,
         win_rate: winRate
     });
+
+    // Also update wallet balance table
+    await updateWalletBalance();
 }
 
 // ═══════════════════════════════════════════════════════════════
 // MAIN
 // ═══════════════════════════════════════════════════════════════
 async function main() {
-    logHeader('MONKEY TRADER BOT INICIANDO...');
+    logHeader('TOM TRADER BOT STARTING...');
 
-    // Carregar wallet
+    // Load wallet
     const wallet = loadWallet();
     if (wallet) {
         const balance = await getBalance();
         logStatus('STARTING', balance, 0, 0, `Wallet: ${wallet.publicKey.toBase58().slice(0, 8)}...`);
+        await updateWalletBalance();
     }
 
-    // Status inicial
+    // Initial status
     await updateSystemStatus({
         status: 'STARTING',
         wallet_address: wallet?.publicKey.toBase58() || null,
         balance_sol: wallet ? await getBalance() : 0
     });
 
-    // Conectar PumpPortal
+    // Connect PumpPortal
     connectPumpPortal({
         onConnect: async () => {
-            logWS('CONNECTED', 'PumpPortal WebSocket conectado');
+            logWS('CONNECTED', 'PumpPortal WebSocket connected');
             await updateSystemStatus({ status: 'ONLINE' });
             subscribeNewTokens();
         },
         onDisconnect: async () => {
-            logWS('DISCONNECTED', 'Tentando reconectar...');
+            logWS('DISCONNECTED', 'Attempting to reconnect...');
             await updateSystemStatus({ status: 'RECONNECTING' });
         },
         onToken: processToken
     });
 
-    // Loop de monitoramento de posicoes
+    // Position monitoring loop
     setInterval(monitorPositions, TRADING_CONFIG.POSITION_CHECK_INTERVAL);
 
-    // Loop de atualizacao de stats
+    // Stats update loop
     setInterval(async () => {
         await updateStats();
         const wallet = getWallet();
@@ -345,29 +392,32 @@ async function main() {
         logStatus('ONLINE', balance, totalPnl, winRate, `${trades?.length || 0} trades`);
     }, 60000);
 
-    logSuccess('Bot iniciado com sucesso!');
+    // Balance update loop (more frequent)
+    setInterval(updateWalletBalance, 10000);
+
+    logSuccess('Bot started successfully!');
 }
 
 // ═══════════════════════════════════════════════════════════════
 // GRACEFUL SHUTDOWN
 // ═══════════════════════════════════════════════════════════════
 async function shutdown(signal) {
-    logInfo(`Recebido ${signal}, encerrando graciosamente...`);
+    logInfo(`Received ${signal}, shutting down gracefully...`);
 
     try {
         await updateSystemStatus({ status: 'OFFLINE' });
-        logSuccess('Status atualizado para OFFLINE');
+        logSuccess('Status updated to OFFLINE');
 
         closeWebSocket();
-        logSuccess('WebSocket fechado');
+        logSuccess('WebSocket closed');
 
         await new Promise(resolve => setTimeout(resolve, 1000));
 
-        logHeader('BOT ENCERRADO');
+        logHeader('BOT TERMINATED');
 
         process.exit(0);
     } catch (error) {
-        logError(`Erro durante shutdown: ${error.message}`);
+        logError(`Error during shutdown: ${error.message}`);
         process.exit(1);
     }
 }
