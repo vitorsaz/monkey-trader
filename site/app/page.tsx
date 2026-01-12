@@ -177,69 +177,18 @@ export default function MonkeyTrader() {
     'PANICO': { color: '#F87171', desc: 'AAAAAAAA', bg: 'from-red-400 to-red-500' }
   };
 
-  // Big Monkey SVG component
+  // Big Monkey Image component
   const BigMonkey = () => (
-    <svg viewBox="0 0 200 220" className={`w-full max-w-[100px] transition-transform duration-300 ${bounce ? 'scale-105' : 'scale-100'}`}>
-      {/* Shadow */}
-      <ellipse cx="100" cy="210" rx="50" ry="8" fill="rgba(0,0,0,0.15)"/>
-
-      {/* Body */}
-      <ellipse cx="100" cy="175" rx="50" ry="40" fill="#A89078" stroke="#5D4E37" strokeWidth="3"/>
-
-      {/* Bandana */}
-      <path d="M50 155 Q100 140 150 155 Q150 168 100 162 Q50 168 50 155" fill="#FF5555" stroke="#5D4E37" strokeWidth="2"/>
-      <path d="M150 155 Q162 148 175 158 Q168 166 155 162" fill="#FF5555" stroke="#5D4E37" strokeWidth="2"/>
-      <path d="M175 158 Q188 152 195 165" fill="#FF5555" stroke="#5D4E37" strokeWidth="2"/>
-
-      {/* Head */}
-      <ellipse cx="100" cy="90" rx="70" ry="75" fill="#A89078" stroke="#5D4E37" strokeWidth="3"/>
-
-      {/* Face */}
-      <ellipse cx="100" cy="100" rx="50" ry="55" fill="#FFF5E6" stroke="#5D4E37" strokeWidth="2"/>
-
-      {/* Ears */}
-      <ellipse cx="25" cy="80" rx="20" ry="22" fill="#A89078" stroke="#5D4E37" strokeWidth="3"/>
-      <ellipse cx="25" cy="80" rx="12" ry="14" fill="#FFB5B5"/>
-      <ellipse cx="175" cy="80" rx="20" ry="22" fill="#A89078" stroke="#5D4E37" strokeWidth="3"/>
-      <ellipse cx="175" cy="80" rx="12" ry="14" fill="#FFB5B5"/>
-
-      {/* Eyes */}
-      {!blinkEyes ? (
-        <>
-          <ellipse cx="70" cy="85" rx="14" ry="16" fill="#FFF" stroke="#5D4E37" strokeWidth="2"/>
-          <ellipse cx="130" cy="85" rx="14" ry="16" fill="#FFF" stroke="#5D4E37" strokeWidth="2"/>
-          <circle cx="73" cy="85" r="7" fill="#5D4E37"/>
-          <circle cx="133" cy="85" r="7" fill="#5D4E37"/>
-          <circle cx="75" cy="82" r="3" fill="#FFF"/>
-          <circle cx="135" cy="82" r="3" fill="#FFF"/>
-        </>
-      ) : (
-        <>
-          <path d="M56 85 Q70 92 84 85" stroke="#5D4E37" strokeWidth="3" fill="none" strokeLinecap="round"/>
-          <path d="M116 85 Q130 92 144 85" stroke="#5D4E37" strokeWidth="3" fill="none" strokeLinecap="round"/>
-        </>
-      )}
-
-      {/* Nose */}
-      <ellipse cx="100" cy="110" rx="10" ry="7" fill="#C4A07A" stroke="#5D4E37" strokeWidth="2"/>
-
-      {/* Mouth */}
-      <path d="M80 130 Q100 145 120 130" stroke="#5D4E37" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
-
-      {/* Cheeks */}
-      <circle cx="55" cy="115" r="18" fill="#FFB5B5" opacity="0.8"/>
-      <circle cx="145" cy="115" r="18" fill="#FFB5B5" opacity="0.8"/>
-
-      {/* Blush lines */}
-      <g stroke="#FF9999" strokeWidth="1.5" opacity="0.6">
-        <path d="M45 110 L50 112"/>
-        <path d="M45 115 L52 117"/>
-        <path d="M45 120 L50 122"/>
-        <path d="M150 110 L155 112"/>
-        <path d="M148 115 L155 117"/>
-        <path d="M150 120 L155 122"/>
-      </g>
-    </svg>
+    <div className={`transition-transform duration-300 ${bounce ? 'scale-105' : 'scale-100'}`}>
+      <img
+        src="/logo.png"
+        alt="Tom - Monkey Trader"
+        className="w-full max-w-[180px] mx-auto rounded-2xl border-4 border-[#5D4E37] shadow-lg"
+        style={{
+          boxShadow: '4px 4px 0 rgba(93, 78, 55, 0.5)'
+        }}
+      />
+    </div>
   );
 
   return (
@@ -264,7 +213,7 @@ export default function MonkeyTrader() {
             <div className="flex items-center justify-between flex-wrap gap-3">
               <div className="flex items-center gap-4">
                 <div className="animate-bounce-slow">
-                  <PaintIcons.monkey />
+                  <img src="/logo.png" alt="Tom" className="w-12 h-12 rounded-full object-cover border-2 border-[#5D4E37]" />
                 </div>
                 <div>
                   <h1 className="text-2xl md:text-3xl font-black text-[#5D4E37] tracking-tight flex items-center gap-2">
