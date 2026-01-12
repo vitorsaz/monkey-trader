@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://monkey-trader.vercel.app/sitemap.xml
