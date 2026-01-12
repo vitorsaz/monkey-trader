@@ -127,14 +127,14 @@ const generateWatchingTokens = () => {
 
 // Gallery images
 const galleryImages = [
-  { id: 1, title: 'macaco pensando', desc: 'analisando o mercado' },
-  { id: 2, title: 'macaco feliz', desc: 'lucro de +500%' },
-  { id: 3, title: 'macaco triste', desc: 'perdeu no rug' },
-  { id: 4, title: 'macaco comendo', desc: 'banana break' },
-  { id: 5, title: 'macaco dormindo', desc: 'mercado fechado' },
-  { id: 6, title: 'macaco gritando', desc: 'TO THE MOON' },
-  { id: 7, title: 'macaco zen', desc: 'hodl mode' },
-  { id: 8, title: 'macaco rico', desc: 'depois do pump' },
+  { id: 1, title: 'Tom 1', desc: 'macaco pensando', img: '/gallery/Screenshot_1_1.png' },
+  { id: 2, title: 'Tom 2', desc: 'analisando mercado', img: '/gallery/Screenshot_2_1.png' },
+  { id: 3, title: 'Tom 3', desc: 'procurando bananas', img: '/gallery/Screenshot_3_1.png' },
+  { id: 4, title: 'Tom 4', desc: 'hora do trade', img: '/gallery/Screenshot_4_1.png' },
+  { id: 5, title: 'Tom 5', desc: 'to the moon', img: '/gallery/Screenshot_5_1.png' },
+  { id: 6, title: 'Tom 6', desc: 'banana time', img: '/gallery/Screenshot_6_1.png' },
+  { id: 7, title: 'Tom Hero', desc: 'o macaco trader', img: '/gallery/aaa.png' },
+  { id: 8, title: 'Tom Extra', desc: 'mais bananas', img: '/gallery/xasd.png' },
 ];
 
 export default function MonkeyTrader() {
@@ -481,18 +481,11 @@ export default function MonkeyTrader() {
                     <div key={img.id} className="group cursor-pointer">
                       <CuteFrame variant="gallery" className="p-2 transition-transform hover:scale-105 hover:rotate-1">
                         <div className="aspect-square bg-gradient-to-br from-[#FFF5E6] to-[#FFE4C4] rounded-lg flex items-center justify-center overflow-hidden">
-                          <svg viewBox="0 0 100 100" className="w-full h-full p-3 group-hover:scale-110 transition-transform">
-                            <ellipse cx="50" cy="45" rx="28" ry="32" fill="#A89078" stroke="#5D4E37" strokeWidth="2"/>
-                            <ellipse cx="50" cy="50" rx="20" ry="24" fill="#FFF5E6" stroke="#5D4E37" strokeWidth="1.5"/>
-                            <circle cx="42" cy="45" r="4" fill="#5D4E37"/>
-                            <circle cx="58" cy="45" r="4" fill="#5D4E37"/>
-                            <circle cx="43" cy="43" r="1.5" fill="#FFF"/>
-                            <circle cx="59" cy="43" r="1.5" fill="#FFF"/>
-                            <circle cx="35" cy="55" r="6" fill="#FFB5B5" opacity="0.7"/>
-                            <circle cx="65" cy="55" r="6" fill="#FFB5B5" opacity="0.7"/>
-                            <path d="M44 60 Q50 66 56 60" stroke="#5D4E37" strokeWidth="1.5" fill="none"/>
-                            <text x="50" y="92" textAnchor="middle" fontSize="10" fill="#8B7355" fontWeight="bold">#{img.id}</text>
-                          </svg>
+                          <img
+                            src={img.img}
+                            alt={img.title}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform"
+                          />
                         </div>
                         <div className="mt-2 text-center">
                           <div className="text-xs font-bold text-[#FFF5E6]">{img.title}</div>
