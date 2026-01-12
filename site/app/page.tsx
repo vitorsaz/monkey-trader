@@ -217,7 +217,7 @@ export default function MonkeyTrader() {
                 </div>
                 <div>
                   <h1 className="text-2xl md:text-3xl font-black text-[#5D4E37] tracking-tight flex items-center gap-2">
-                    MONKEY TRADER
+                    TOM TRADER
                     <span className="inline-block animate-wiggle"><PaintIcons.banana /></span>
                   </h1>
                   <p className="text-sm text-[#8B7355]">o macaquinho que faz trade na solana</p>
@@ -458,8 +458,8 @@ export default function MonkeyTrader() {
                   <CuteFrame variant="accent" className="p-4">
                     <h3 className="font-bold text-[#5D4E37] mb-2 text-lg">O QUE E ISSO?</h3>
                     <p className="text-sm text-[#5D4E37] leading-relaxed">
-                      MONKEY TRADER e um bot autonomo que faz trades na Solana. Ele analisa tokens
-                      novos no PumpFun usando IA e decide se compra ou nao. O macaquinho tem personalidade
+                      TOM TRADER e um bot autonomo que faz trades na Solana. Ele analisa tokens
+                      novos no PumpFun usando IA e decide se compra ou nao. O Tom tem personalidade
                       propria e seu humor afeta as decisoes de trading!
                     </p>
                   </CuteFrame>
@@ -584,11 +584,11 @@ export default function MonkeyTrader() {
         <footer className="mt-5">
           <CuteFrame variant="light" className="p-3 text-center">
             <p className="text-xs text-[#8B7355] flex items-center justify-center gap-2 flex-wrap">
-              <span>MONKEY TRADER 2025</span>
+              <span>TOM TRADER 2025</span>
               <span className="text-[#FF8C42]">|</span>
               <span>nao e conselho financeiro</span>
               <span className="text-[#FF8C42]">|</span>
-              <span>macaco nao se responsabiliza por perdas</span>
+              <span>Tom nao se responsabiliza por perdas</span>
               <PaintIcons.banana />
             </p>
           </CuteFrame>
