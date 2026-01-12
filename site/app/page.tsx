@@ -127,14 +127,14 @@ const generateWatchingTokens = () => {
 
 // Gallery images
 const galleryImages = [
-  { id: 1, title: 'Tom 1', desc: 'macaco pensando', img: '/gallery/Screenshot_1_1.png' },
-  { id: 2, title: 'Tom 2', desc: 'analisando mercado', img: '/gallery/Screenshot_2_1.png' },
-  { id: 3, title: 'Tom 3', desc: 'procurando bananas', img: '/gallery/Screenshot_3_1.png' },
-  { id: 4, title: 'Tom 4', desc: 'hora do trade', img: '/gallery/Screenshot_4_1.png' },
+  { id: 1, title: 'Tom 1', desc: 'thinking monkey', img: '/gallery/Screenshot_1_1.png' },
+  { id: 2, title: 'Tom 2', desc: 'analyzing market', img: '/gallery/Screenshot_2_1.png' },
+  { id: 3, title: 'Tom 3', desc: 'searching bananas', img: '/gallery/Screenshot_3_1.png' },
+  { id: 4, title: 'Tom 4', desc: 'trading time', img: '/gallery/Screenshot_4_1.png' },
   { id: 5, title: 'Tom 5', desc: 'to the moon', img: '/gallery/Screenshot_5_1.png' },
   { id: 6, title: 'Tom 6', desc: 'banana time', img: '/gallery/Screenshot_6_1.png' },
-  { id: 7, title: 'Tom Hero', desc: 'o macaco trader', img: '/gallery/aaa.png' },
-  { id: 8, title: 'Tom Extra', desc: 'mais bananas', img: '/gallery/xasd.png' },
+  { id: 7, title: 'Tom Hero', desc: 'the trader monkey', img: '/gallery/aaa.png' },
+  { id: 8, title: 'Tom Extra', desc: 'more bananas', img: '/gallery/xasd.png' },
 ];
 
 export default function MonkeyTrader() {
@@ -170,11 +170,11 @@ export default function MonkeyTrader() {
   }, []);
 
   const moods: Record<string, { color: string; desc: string; bg: string }> = {
-    'EUFORICO': { color: '#4ADE80', desc: 'achei banana de ouro!!', bg: 'from-green-400 to-green-500' },
-    'FELIZ': { color: '#86EFAC', desc: 'hoje ta bom demais', bg: 'from-green-300 to-green-400' },
-    'NORMAL': { color: '#FBBF24', desc: 'bora trabalhar ne', bg: 'from-yellow-400 to-orange-400' },
-    'NERVOSO': { color: '#FB923C', desc: 'esse mercado ta doido', bg: 'from-orange-400 to-orange-500' },
-    'PANICO': { color: '#F87171', desc: 'AAAAAAAA', bg: 'from-red-400 to-red-500' }
+    'EUPHORIC': { color: '#4ADE80', desc: 'found a golden banana!!', bg: 'from-green-400 to-green-500' },
+    'HAPPY': { color: '#86EFAC', desc: 'today is amazing', bg: 'from-green-300 to-green-400' },
+    'NORMAL': { color: '#FBBF24', desc: 'lets get to work', bg: 'from-yellow-400 to-orange-400' },
+    'NERVOUS': { color: '#FB923C', desc: 'this market is crazy', bg: 'from-orange-400 to-orange-500' },
+    'PANIC': { color: '#F87171', desc: 'AAAAAAAA', bg: 'from-red-400 to-red-500' }
   };
 
   // Big Monkey Image component
@@ -220,17 +220,17 @@ export default function MonkeyTrader() {
                     TOM TRADER
                     <span className="inline-block animate-wiggle"><PaintIcons.banana /></span>
                   </h1>
-                  <p className="text-sm text-[#8B7355]">o macaquinho que faz trade na solana</p>
+                  <p className="text-sm text-[#8B7355]">the little monkey that trades on Solana</p>
                 </div>
               </div>
 
               <div className="flex items-center gap-6">
                 <div className="text-right">
-                  <div className="text-xs text-[#8B7355] uppercase tracking-wide">PNL Total</div>
+                  <div className="text-xs text-[#8B7355] uppercase tracking-wide">Total PNL</div>
                   <div className="text-2xl font-black text-green-600">{totalPnl}</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-xs text-[#8B7355] uppercase tracking-wide">Humor</div>
+                  <div className="text-xs text-[#8B7355] uppercase tracking-wide">Mood</div>
                   <div className={`text-lg font-black px-3 py-1 rounded-full bg-gradient-to-r ${moods[monkeyMood].bg} text-white`}>
                     {monkeyMood}
                   </div>
@@ -246,8 +246,8 @@ export default function MonkeyTrader() {
             <div className="flex flex-wrap gap-2">
               {[
                 { id: 'terminal', label: 'Terminal' },
-                { id: 'observando', label: 'Observando' },
-                { id: 'galeria', label: 'Galeria' },
+                { id: 'watching', label: 'Watching' },
+                { id: 'gallery', label: 'Gallery' },
                 { id: 'about', label: 'About' },
                 { id: 'CA', label: 'CA' }
               ].map(tab => (
@@ -288,7 +288,7 @@ export default function MonkeyTrader() {
               {/* Stats */}
               <div className="mt-4 grid grid-cols-2 gap-3">
                 {[
-                  { label: 'TRADES HOJE', value: '47', color: 'text-[#5D4E37]' },
+                  { label: 'TRADES TODAY', value: '47', color: 'text-[#5D4E37]' },
                   { label: 'WIN RATE', value: '68%', color: 'text-green-600' },
                   { label: 'BALANCE', value: '2.45 SOL', color: 'text-[#5D4E37]' },
                   { label: 'BANANAS', value: '999', color: 'text-[#FF8C42]' },
@@ -313,16 +313,16 @@ export default function MonkeyTrader() {
                     <div className="w-3 h-3 rounded-full bg-[#FFD93D]"></div>
                     <div className="w-3 h-3 rounded-full bg-[#4ADE80]"></div>
                   </div>
-                  <span className="text-[#FF8C42] text-sm font-bold ml-2">HISTORICO DE TRADES</span>
+                  <span className="text-[#FF8C42] text-sm font-bold ml-2">TRADE HISTORY</span>
                 </div>
 
                 <div className="h-[400px] overflow-y-auto custom-scrollbar">
                   <table className="w-full text-xs">
                     <thead className="text-[#8B7355] sticky top-0 bg-[#2D2419]">
                       <tr>
-                        <th className="text-left p-2 rounded-l-lg">HORA</th>
+                        <th className="text-left p-2 rounded-l-lg">TIME</th>
                         <th className="text-left p-2">TOKEN</th>
-                        <th className="text-left p-2">TIPO</th>
+                        <th className="text-left p-2">TYPE</th>
                         <th className="text-right p-2">SOL</th>
                         <th className="text-right p-2">P/L</th>
                         <th className="text-center p-2 rounded-r-lg">STATUS</th>
@@ -363,17 +363,17 @@ export default function MonkeyTrader() {
 
                 <div className="mt-4 pt-3 border-t border-[#FF8C42]/30 text-[#8B7355] text-xs flex items-center gap-2">
                   <span className="w-2 h-2 bg-[#4ADE80] rounded-full animate-pulse"></span>
-                  macaquinho esta trabalhando...
+                  Tom is working...
                 </div>
               </CuteFrame>
             )}
 
             {/* Watching Tab */}
-            {activeTab === 'observando' && (
+            {activeTab === 'watching' && (
               <CuteFrame variant="terminal" className="p-4">
                 <div className="flex items-center gap-2 mb-4 pb-3 border-b border-[#FF8C42]/30">
                   <PaintIcons.eye />
-                  <span className="text-[#FF8C42] text-sm font-bold">MOEDAS NA MIRA DO MACACO</span>
+                  <span className="text-[#FF8C42] text-sm font-bold">TOKENS ON TOM&apos;S RADAR</span>
                 </div>
 
                 <div className="grid gap-3">
@@ -413,16 +413,16 @@ export default function MonkeyTrader() {
                 </div>
 
                 <div className="mt-4 pt-3 border-t border-[#FF8C42]/30 text-[#8B7355] text-xs">
-                  atualizado a cada 30s | score 65+ = macaco compra
+                  updated every 30s | score 65+ = Tom buys
                 </div>
               </CuteFrame>
             )}
 
             {/* Gallery Tab */}
-            {activeTab === 'galeria' && (
+            {activeTab === 'gallery' && (
               <CuteFrame variant="light" className="p-5">
                 <h2 className="text-xl font-black text-[#5D4E37] mb-5 flex items-center gap-2">
-                  <PaintIcons.star /> GALERIA DO MACACO
+                  <PaintIcons.star /> TOM&apos;S GALLERY
                 </h2>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -451,28 +451,28 @@ export default function MonkeyTrader() {
             {activeTab === 'about' && (
               <CuteFrame variant="light" className="p-5">
                 <h2 className="text-xl font-black text-[#5D4E37] mb-5 flex items-center gap-2">
-                  <PaintIcons.monkey /> SOBRE O PROJETO
+                  <PaintIcons.monkey /> ABOUT THE PROJECT
                 </h2>
 
                 <div className="space-y-4">
                   <CuteFrame variant="accent" className="p-4">
-                    <h3 className="font-bold text-[#5D4E37] mb-2 text-lg">O QUE E ISSO?</h3>
+                    <h3 className="font-bold text-[#5D4E37] mb-2 text-lg">WHAT IS THIS?</h3>
                     <p className="text-sm text-[#5D4E37] leading-relaxed">
-                      TOM TRADER e um bot autonomo que faz trades na Solana. Ele analisa tokens
-                      novos no PumpFun usando IA e decide se compra ou nao. O Tom tem personalidade
-                      propria e seu humor afeta as decisoes de trading!
+                      TOM TRADER is an autonomous bot that trades on Solana. It analyzes new tokens
+                      on PumpFun using AI and decides whether to buy or not. Tom has his own personality
+                      and his mood affects trading decisions!
                     </p>
                   </CuteFrame>
 
                   <CuteFrame variant="default" className="p-4">
-                    <h3 className="font-bold text-white mb-3 text-lg">COMO FUNCIONA?</h3>
+                    <h3 className="font-bold text-white mb-3 text-lg">HOW DOES IT WORK?</h3>
                     <div className="space-y-2 text-sm text-[#FFF5E6]">
                       {[
-                        'Monitora tokens novos em tempo real',
-                        'Analisa cada token com Claude AI',
-                        'Decide baseado em score (65+ = compra)',
-                        'Humor do macaco afeta o risco',
-                        'Vende automatico em TP ou SL'
+                        'Monitors new tokens in real time',
+                        'Analyzes each token with Claude AI',
+                        'Decides based on score (65+ = buy)',
+                        'Tom\'s mood affects risk tolerance',
+                        'Auto sells at TP or SL'
                       ].map((item, i) => (
                         <div key={i} className="flex items-center gap-2">
                           <span className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center text-xs font-bold">{i + 1}</span>
@@ -483,7 +483,7 @@ export default function MonkeyTrader() {
                   </CuteFrame>
 
                   <CuteFrame variant="light" className="p-4">
-                    <h3 className="font-bold text-[#5D4E37] mb-3 text-lg">SISTEMA DE HUMOR</h3>
+                    <h3 className="font-bold text-[#5D4E37] mb-3 text-lg">MOOD SYSTEM</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {Object.entries(moods).map(([mood, data]) => (
                         <div key={mood} className="flex items-center gap-3 p-2 bg-white/50 rounded-xl">
@@ -499,7 +499,7 @@ export default function MonkeyTrader() {
 
                   <CuteFrame variant="terminal" className="p-4 text-center">
                     <p className="text-[#FFD93D] text-sm flex items-center justify-center gap-2">
-                      feito com <PaintIcons.heart /> por um macaco que ama bananas
+                      made with <PaintIcons.heart /> by a monkey who loves bananas
                     </p>
                   </CuteFrame>
                 </div>
@@ -516,7 +516,7 @@ export default function MonkeyTrader() {
                 <div className="space-y-4">
                   <CuteFrame variant="accent" className="p-4">
                     <label className="block text-sm font-bold text-[#5D4E37] mb-3">
-                      COLE O CA DA MOEDA:
+                      PASTE TOKEN CA:
                     </label>
                     <div className="flex gap-2">
                       <input
@@ -529,20 +529,20 @@ export default function MonkeyTrader() {
                       <button
                         className="px-5 py-3 bg-gradient-to-r from-[#FF8C42] to-[#FF6B35] text-white font-bold rounded-xl hover:scale-105 transition-transform shadow-lg"
                       >
-                        ANALISAR
+                        ANALYZE
                       </button>
                     </div>
                   </CuteFrame>
 
                   {caInput && (
                     <CuteFrame variant="terminal" className="p-4">
-                      <div className="text-[#8B7355] text-xs mb-3 uppercase tracking-wide">Resultado da Analise:</div>
+                      <div className="text-[#8B7355] text-xs mb-3 uppercase tracking-wide">Analysis Result:</div>
                       <div className="space-y-3">
                         {[
-                          { label: 'Token', value: '$EXEMPLO', color: 'text-[#FFD93D]' },
+                          { label: 'Token', value: '$EXAMPLE', color: 'text-[#FFD93D]' },
                           { label: 'Market Cap', value: '$45,230', color: 'text-[#FFF5E6]' },
-                          { label: 'Score do Macaco', value: '72/100', color: 'text-green-400' },
-                          { label: 'Decisao', value: 'COMPRAR', color: 'text-green-400' },
+                          { label: 'Tom\'s Score', value: '72/100', color: 'text-green-400' },
+                          { label: 'Decision', value: 'BUY', color: 'text-green-400' },
                         ].map((item, i) => (
                           <div key={i} className="flex justify-between items-center p-2 bg-[#3D3429]/50 rounded-lg">
                             <span className="text-[#A89078] text-sm">{item.label}</span>
@@ -551,9 +551,9 @@ export default function MonkeyTrader() {
                         ))}
 
                         <div className="mt-3 p-3 bg-[#3D3429] rounded-xl border border-[#FF8C42]/30">
-                          <div className="text-[#8B7355] text-xs mb-2 uppercase">Pensamento do Macaco:</div>
+                          <div className="text-[#8B7355] text-xs mb-2 uppercase">Tom&apos;s Thoughts:</div>
                           <p className="text-[#FFD93D] text-sm italic">
-                            &quot;hmm esse token tem cara de banana... vou comprar um pouco!&quot;
+                            &quot;hmm this token looks like a banana... gonna buy some!&quot;
                           </p>
                         </div>
                       </div>
@@ -561,14 +561,14 @@ export default function MonkeyTrader() {
                   )}
 
                   <CuteFrame variant="default" className="p-4">
-                    <h3 className="font-bold text-white mb-3 text-sm">TOKEN OFICIAL</h3>
+                    <h3 className="font-bold text-white mb-3 text-sm">OFFICIAL TOKEN</h3>
                     <div className="flex items-center gap-2 bg-white/20 p-3 rounded-xl">
                       <code className="flex-1 text-xs font-mono text-white/90 break-all">
-                        Em breve...
+                        Coming soon...
                       </code>
                       <button
                         className="p-2 bg-white/20 rounded-lg hover:bg-white/30 transition-colors"
-                        onClick={() => navigator.clipboard.writeText('Em breve...')}
+                        onClick={() => navigator.clipboard.writeText('Coming soon...')}
                       >
                         <PaintIcons.copy />
                       </button>
@@ -586,9 +586,9 @@ export default function MonkeyTrader() {
             <p className="text-xs text-[#8B7355] flex items-center justify-center gap-2 flex-wrap">
               <span>TOM TRADER 2025</span>
               <span className="text-[#FF8C42]">|</span>
-              <span>nao e conselho financeiro</span>
+              <span>not financial advice</span>
               <span className="text-[#FF8C42]">|</span>
-              <span>Tom nao se responsabiliza por perdas</span>
+              <span>Tom is not responsible for losses</span>
               <PaintIcons.banana />
             </p>
           </CuteFrame>

@@ -3,17 +3,17 @@ import './globals.css';
 
 export const metadata: Metadata = {
     title: 'Tom Trader',
-    description: 'O macaquinho que faz trade na Solana - AI-powered memecoin trading bot',
+    description: 'The little monkey that trades on Solana - AI-powered memecoin trading bot',
     keywords: ['solana', 'memecoin', 'trading', 'bot', 'ai', 'pump.fun', 'tom', 'monkey'],
     openGraph: {
         title: 'Tom Trader',
-        description: 'O macaquinho que faz trade na Solana',
+        description: 'The little monkey that trades on Solana',
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
         title: 'Tom Trader',
-        description: 'O macaquinho que faz trade na Solana',
+        description: 'The little monkey that trades on Solana',
     },
     icons: {
         icon: '/logo.png',
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="pt-BR">
+        <html lang="en">
             <body>
                 {children}
             </body>
